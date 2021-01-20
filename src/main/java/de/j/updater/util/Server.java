@@ -30,6 +30,7 @@ public class Server {
         System.out.println("Deleting old version...");
         Process process = Runtime.getRuntime().exec("rm " + getCurrentVersion());
         process.waitFor();
+        process.destroy();
         System.out.println("Deleted!");
     }
 }

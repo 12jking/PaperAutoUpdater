@@ -11,25 +11,23 @@ public class Paper {
     String paperUrl;
     private static BufferedReader br;
     private static URL url;
+    int newestVersion = 430;
 
     public int getNewestVersion()  {
-        int newestVersion = 430;
         for (int i = 430; i < 800; i ++){
             try {
                 if (checkIfUrlExists(new URL("https://papermc.io/api/v2/projects/paper/versions/1.16.5/builds/" + i + "/downloads/paper-1.16.5-" + i + ".jar"))){
                     newestVersion ++;
                 }else {
-                    return newestVersion - 1;
+                    newestVersion = i-1;
+                    return newestVersion-1;
                 }
             } catch (IOException e) {
-                return newestVersion - 1;
+                newestVersion = i -1;
+                return newestVersion-1;
             }
         }
         return 430;
-    }
-
-    public Paper () {
-        paperUrl = "https://papermc.io/api/v2/projects/paper/versions/1.16.5/builds/" + getNewestVersion() + "/downloads/paper-1.16.5-" + getNewestVersion() + ".jar";
     }
 
     private boolean checkIfUrlExists(URL url) throws IOException {
@@ -39,9 +37,12 @@ public class Paper {
 
     public void downloadNewVersion() throws IOException, InterruptedException {
         System.out.println("Downloading new version...");
-        Process p = Runtime.getRuntime().exec("wget " + paperUrl);
+        paperUrl = "https://papermc.io/api/v2/projects/paper/versions/1.16.5/builds/" + newestVersion + "/downloads/paper-1.16.5-" + newestVersion + ".jar";
+        Process p = Runtime.getRuntime().exec("sudo curl -O " + paperUrl);
         p.waitFor();
+        p.destroy();
         System.out.println("Downloaded!");
+        System.exit(0);
     }
 
 }
