@@ -12,7 +12,7 @@ public class Paper {
     String paperUrl;
     private static BufferedReader br;
     private static URL url;
-    int newestVersion = 430;
+    int newestVersion;
     String mcVersion;
 
 
@@ -31,6 +31,7 @@ public class Paper {
         for (int i : v) {
             if (i > newest) newest = i;
         }
+        newestVersion = newest;
         return newest;
     }
 
