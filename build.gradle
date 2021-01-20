@@ -4,6 +4,7 @@ plugins {
 
 group 'org.example'
 version '1.0-SNAPSHOT'
+sourceCompatibility = 1.11
 
 repositories {
     mavenCentral()
@@ -17,3 +18,14 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+jar {
+    manifest{
+        attributes 'Main-Class': 'de.j.updater.main.Main'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+compileJava.options.encoding = "UTF-8"
