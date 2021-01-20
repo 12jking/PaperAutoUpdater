@@ -3,8 +3,9 @@ package de.j.updater.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Paper {
 
@@ -12,32 +13,34 @@ public class Paper {
     private static BufferedReader br;
     private static URL url;
     int newestVersion = 430;
+    String mcVersion;
 
-    public int getNewestVersion()  {
-        for (int i = 430; i < 800; i ++){
-            try {
-                if (checkIfUrlExists(new URL("https://papermc.io/api/v2/projects/paper/versions/1.16.5/builds/" + i + "/downloads/paper-1.16.5-" + i + ".jar"))){
-                    newestVersion ++;
-                }else {
-                    newestVersion = i-1;
-                    return newestVersion-1;
-                }
-            } catch (IOException e) {
-                newestVersion = i -1;
-                return newestVersion-1;
-            }
+
+    public int getCurrentVersion() throws IOException {
+        URL url = new URL("https://papermc.io/api/v2/projects/paper/versions/" + mcVersion);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
+        String s = reader.readLine().replace("{\"project_id\":\"paper\",\"project_name\":\"Paper\",\"version\":\"1.16.5\",\"builds\":[", "").replace("]}", "");
+        System.out.println(s);
+        String[] versions = s.split(",");
+        List<Integer> v = new ArrayList<>();
+        for (String version : versions) {
+            v.add(Integer.parseInt(version));
         }
-        return 430;
+
+        int newest = 100;
+        for (int i : v) {
+            if (i > newest) newest = i;
+        }
+        return newest;
     }
 
-    private boolean checkIfUrlExists(URL url) throws IOException {
-        br = new BufferedReader(new InputStreamReader(url.openStream()));
-        return !br.readLine().equalsIgnoreCase("{\"error\":\"no such build\"}");
+    public Paper(String mcVersion){
+        this.mcVersion = mcVersion;
     }
 
     public void downloadNewVersion() throws IOException, InterruptedException {
         System.out.println("Downloading new version...");
-        paperUrl = "https://papermc.io/api/v2/projects/paper/versions/1.16.5/builds/" + newestVersion + "/downloads/paper-1.16.5-" + newestVersion + ".jar";
+        paperUrl = "https://papermc.io/api/v2/projects/paper/versions/" + mcVersion + "/builds/" + newestVersion + "/downloads/paper-" + mcVersion + "-" + newestVersion + ".jar";
         Process p = Runtime.getRuntime().exec("sudo curl -O " + paperUrl);
         p.waitFor();
         p.destroy();
