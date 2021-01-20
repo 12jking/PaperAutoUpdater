@@ -20,7 +20,7 @@ public class Paper {
         URL url = new URL("https://papermc.io/api/v2/projects/paper/versions/" + mcVersion);
         BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
         String s = reader.readLine().replace("{\"project_id\":\"paper\",\"project_name\":\"Paper\",\"version\":\"1.16.5\",\"builds\":[", "").replace("]}", "");
-        System.out.println(s);
+        System.out.println("Paper builds for your mc version" + s);
         String[] versions = s.split(",");
         List<Integer> v = new ArrayList<>();
         for (String version : versions) {
