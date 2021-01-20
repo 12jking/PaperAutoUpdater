@@ -28,14 +28,20 @@ public class Paper {
         return 430;
     }
 
-    public Paper () throws IOException {
+    public Paper () {
         paperUrl = "https://papermc.io/api/v2/projects/paper/versions/1.16.5/builds/" + getNewestVersion() + "/downloads/paper-1.16.5-" + getNewestVersion() + ".jar";
-        Runtime.getRuntime().exec("wget " + paperUrl);
     }
 
     private boolean checkIfUrlExists(URL url) throws IOException {
         br = new BufferedReader(new InputStreamReader(url.openStream()));
         return !br.readLine().equalsIgnoreCase("{\"error\":\"no such build\"}");
+    }
+
+    public void downloadNewVersion() throws IOException, InterruptedException {
+        System.out.println("Downloading new version...");
+        Process p = Runtime.getRuntime().exec("wget " + paperUrl);
+        p.waitFor();
+        System.out.println("Downloaded!");
     }
 
 }
