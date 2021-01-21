@@ -1,8 +1,6 @@
 package de.j.updater.util;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Objects;
 
 public class Server {
@@ -33,7 +31,7 @@ public class Server {
     public static void deleteOldVersion() throws IOException, InterruptedException {
         try {
             System.out.println("Deleting old version...");
-            Process process = Runtime.getRuntime().exec("rm " + getCurrentVersion());
+            Process process = Runtime.getRuntime().exec("rm paper.jar");
             process.waitFor();
             process.destroy();
             System.out.println("Deleted!");
@@ -43,8 +41,13 @@ public class Server {
 
     }
 
-    public static boolean alreadyNewestVersion(String mcVersion, int build){
+    /*public static boolean alreadyNewestVersion(String mcVersion, int build){
         return Objects.requireNonNull(getCurrentVersion()).equalsIgnoreCase("paper-" + mcVersion + "-" + Paper.newestVersion + ".jar");
+    }*/
+
+    public static void updateStartSkript(String mcVersion) throws IOException {
+        Runtime.getRuntime().exec("sudo mv paper-" + mcVersion + "-" + Paper.newestVersion + ".jar paper.jar");
+
     }
 
 }

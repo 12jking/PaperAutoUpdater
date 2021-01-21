@@ -47,7 +47,6 @@ public class Paper {
             p.waitFor();
             p.destroy();
             System.out.println("Downloaded!");
-            System.exit(0);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

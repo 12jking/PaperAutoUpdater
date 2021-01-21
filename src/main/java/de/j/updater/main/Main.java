@@ -15,12 +15,14 @@ public class Main {
             Paper paper = new Paper(mcVersion);
             System.out.println("Checking version...");
             System.out.println("The newest version is #" + paper.getCurrentVersion());
-            if (!Server.alreadyNewestVersion(mcVersion, Paper.newestVersion)){
+            //if (!Server.alreadyNewestVersion(mcVersion, Paper.newestVersion)){
                 Server.deleteOldVersion();
                 paper.downloadNewVersion();
-            }else
-                System.out.println("You are already at the newest version!");
+                Server.updateStartSkript(mcVersion);
                 System.exit(0);
+            //}else
+                //System.out.println("You are already at the newest version!");
+                //System.exit(0);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
