@@ -24,6 +24,5 @@ public class Main {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
     }
 }

@@ -20,7 +20,7 @@ public class Paper {
         URL url = new URL("https://papermc.io/api/v2/projects/paper/versions/" + mcVersion);
         BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
         String s = reader.readLine().replace("{\"project_id\":\"paper\",\"project_name\":\"Paper\",\"version\":\"1.16.5\",\"builds\":[", "").replace("]}", "");
-        System.out.println("Paper builds for your mc version" + s);
+        System.out.println("Paper builds for your mc version " + s);
         String[] versions = s.split(",");
         List<Integer> v = new ArrayList<>();
         for (String version : versions) {
@@ -40,6 +40,7 @@ public class Paper {
     }
 
     public void downloadNewVersion() throws IOException, InterruptedException {
+        try {
             System.out.println("Downloading new version...");
             paperUrl = "https://papermc.io/api/v2/projects/paper/versions/" + mcVersion + "/builds/" + newestVersion + "/downloads/paper-" + mcVersion + "-" + newestVersion + ".jar";
             Process p = Runtime.getRuntime().exec("sudo curl -O " + paperUrl);
@@ -47,8 +48,9 @@ public class Paper {
             p.destroy();
             System.out.println("Downloaded!");
             System.exit(0);
-
-
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

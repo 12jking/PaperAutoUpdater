@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 
 public class Server {
 
-    private static String serverVersion;
+    //private static String serverVersion;
 
     public static String getCurrentVersion(){
         Process p;
@@ -17,7 +17,7 @@ public class Server {
                     new InputStreamReader(p.getInputStream()));
             while ((s = br.readLine()) != null){
                 if (s.contains("paper-1.1")){
-                    serverVersion = s;
+                    //serverVersion = s;
                     return s;
                 }
             }
@@ -30,14 +30,20 @@ public class Server {
     }
 
     public static void deleteOldVersion() throws IOException, InterruptedException {
-        System.out.println("Deleting old version...");
-        Process process = Runtime.getRuntime().exec("rm " + getCurrentVersion());
-        process.waitFor();
-        process.destroy();
-        System.out.println("Deleted!");
+        try {
+            System.out.println("Deleting old version...");
+            Process process = Runtime.getRuntime().exec("rm " + getCurrentVersion());
+            process.waitFor();
+            process.destroy();
+            System.out.println("Deleted!");
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static boolean alreadyNewestVersion(String mcVersion, int build){
-        return serverVersion.equalsIgnoreCase("paper-" + mcVersion + "-" + Paper.newestVersion + ".jar");
+        return getCurrentVersion().equalsIgnoreCase("paper-" + mcVersion + "-" + Paper.newestVersion + ".jar");
     }
+
 }
