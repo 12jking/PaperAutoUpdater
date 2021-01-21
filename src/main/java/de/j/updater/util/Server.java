@@ -3,6 +3,7 @@ package de.j.updater.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
 public class Server {
 
@@ -43,7 +44,7 @@ public class Server {
     }
 
     public static boolean alreadyNewestVersion(String mcVersion, int build){
-        return getCurrentVersion().equalsIgnoreCase("paper-" + mcVersion + "-" + Paper.newestVersion + ".jar");
+        return Objects.requireNonNull(getCurrentVersion()).equalsIgnoreCase("paper-" + mcVersion + "-" + Paper.newestVersion + ".jar");
     }
 
 }
