@@ -6,7 +6,9 @@ import java.io.InputStreamReader;
 
 public class Server {
 
-    private static String getCurrentVersion(){
+    private static String serverVersion;
+
+    public static String getCurrentVersion(){
         Process p;
         String s;
         try {
@@ -15,6 +17,7 @@ public class Server {
                     new InputStreamReader(p.getInputStream()));
             while ((s = br.readLine()) != null){
                 if (s.contains("paper-1.1")){
+                    serverVersion = s;
                     return s;
                 }
             }
@@ -32,5 +35,9 @@ public class Server {
         process.waitFor();
         process.destroy();
         System.out.println("Deleted!");
+    }
+
+    public static boolean alreadyNewestVersion(String mcVersion, int build){
+        return serverVersion.equalsIgnoreCase("paper-" + mcVersion + "-" + Paper.newestVersion + ".jar");
     }
 }

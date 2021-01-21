@@ -12,7 +12,7 @@ public class Paper {
     String paperUrl;
     private static BufferedReader br;
     private static URL url;
-    int newestVersion;
+    public static int newestVersion;
     String mcVersion;
 
 
@@ -40,13 +40,15 @@ public class Paper {
     }
 
     public void downloadNewVersion() throws IOException, InterruptedException {
-        System.out.println("Downloading new version...");
-        paperUrl = "https://papermc.io/api/v2/projects/paper/versions/" + mcVersion + "/builds/" + newestVersion + "/downloads/paper-" + mcVersion + "-" + newestVersion + ".jar";
-        Process p = Runtime.getRuntime().exec("sudo curl -O " + paperUrl);
-        p.waitFor();
-        p.destroy();
-        System.out.println("Downloaded!");
-        System.exit(0);
+            System.out.println("Downloading new version...");
+            paperUrl = "https://papermc.io/api/v2/projects/paper/versions/" + mcVersion + "/builds/" + newestVersion + "/downloads/paper-" + mcVersion + "-" + newestVersion + ".jar";
+            Process p = Runtime.getRuntime().exec("sudo curl -O " + paperUrl);
+            p.waitFor();
+            p.destroy();
+            System.out.println("Downloaded!");
+            System.exit(0);
+
+
     }
 
 }
