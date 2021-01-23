@@ -15,7 +15,6 @@ public class Paper {
     public static int newestVersion;
     String mcVersion;
 
-
     public int getCurrentVersion() throws IOException {
         URL url = new URL("https://papermc.io/api/v2/projects/paper/versions/" + mcVersion);
         BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
@@ -47,6 +46,8 @@ public class Paper {
             p.waitFor();
             p.destroy();
             System.out.println("Downloaded!");
+            Log log = new Log();
+            log.setNewVersion(newestVersion).save();
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

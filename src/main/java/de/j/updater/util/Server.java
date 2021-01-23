@@ -1,11 +1,9 @@
 package de.j.updater.util;
 
 import java.io.*;
-import java.util.Objects;
+import java.util.NoSuchElementException;
 
 public class Server {
-
-    //private static String serverVersion;
 
     public static String getCurrentVersion(){
         Process p;
@@ -41,11 +39,19 @@ public class Server {
 
     }
 
-    /*public static boolean alreadyNewestVersion(String mcVersion, int build){
-        return Objects.requireNonNull(getCurrentVersion()).equalsIgnoreCase("paper-" + mcVersion + "-" + Paper.newestVersion + ".jar");
-    }*/
+    public static boolean alreadyNewestVersion(){
+        try {
+            Log log = new Log();
+            if (!log.exists()){
+                return false;
+            }
+            return log.getLatestUpdateVersion() == Paper.newestVersion;
+        } catch (IOException | NoSuchElementException e) {
+            return false;
+        }
+    }
 
-    public static void updateStartSkript(String mcVersion) throws IOException {
+    public static void updateStartScript(String mcVersion) throws IOException {
         Runtime.getRuntime().exec("sudo mv paper-" + mcVersion + "-" + Paper.newestVersion + ".jar paper.jar");
 
     }
