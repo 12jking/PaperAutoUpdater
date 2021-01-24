@@ -35,7 +35,7 @@ public class Log {
             scanner.close();
             return Integer.parseInt(data);
         } catch (FileNotFoundException e) {
-            return 400;
+            return 300;
         }
     }
 
