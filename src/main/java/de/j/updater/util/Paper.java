@@ -1,5 +1,7 @@
 package de.j.updater.util;
 
+import de.j.updater.main.Main;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
