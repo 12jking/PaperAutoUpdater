@@ -28,11 +28,11 @@ public class Server {
 
     public static void deleteOldVersion() throws IOException, InterruptedException {
         try {
-            System.out.println("Deleting old version...");
+            System.out.println("[Thread #1] Deleting old version...");
             Process process = Runtime.getRuntime().exec("rm paper.jar");
             process.waitFor();
             process.destroy();
-            System.out.println("Deleted!");
+            System.out.println("[Thread #1] Deleted!");
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
@@ -51,9 +51,17 @@ public class Server {
         }
     }
 
-    public static void updateStartScript(String mcVersion) throws IOException {
-        Runtime.getRuntime().exec("sudo mv paper-" + mcVersion + "-" + Paper.newestVersion + ".jar paper.jar");
+    public static void startServer(String mcVersion, int ram) throws IOException, InterruptedException {
+        System.out.println("Starting server on Screen...");
+        Process p = Runtime.getRuntime().exec("screen -dmS mc java -jar -Xmx" + ram + "G paper.jar nogui");
+        p.waitFor();
+        p.destroy();
+    }
 
+    public static void updateStartScript(String mcVersion) throws IOException, InterruptedException {
+        Process p = Runtime.getRuntime().exec("sudo mv paper-" + mcVersion + "-" + Paper.newestVersion + ".jar paper.jar");
+        p.waitFor();
+        p.destroy();
     }
 
 }

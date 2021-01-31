@@ -33,6 +33,14 @@ public class Main {
                 });
                 delete.start();
                 download.start();
+                try {
+                    download.join();
+                    Server.startServer(mcVersion, Integer.parseInt(args[0]));
+                } catch (NumberFormatException e){
+                    System.out.println("Please enter a valid RAM");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
             }else
                 System.out.println("You are already at the newest version!");

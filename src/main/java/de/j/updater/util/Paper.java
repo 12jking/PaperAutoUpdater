@@ -42,12 +42,12 @@ public class Paper {
 
     public void downloadNewVersion() throws IOException, InterruptedException {
         try {
-            System.out.println("Downloading new version...");
+            System.out.println("[Thread #2] Downloading new version...");
             paperUrl = "https://papermc.io/api/v2/projects/paper/versions/" + mcVersion + "/builds/" + newestVersion + "/downloads/paper-" + mcVersion + "-" + newestVersion + ".jar";
             Process p = Runtime.getRuntime().exec("sudo curl -O " + paperUrl);
             p.waitFor();
             p.destroy();
-            System.out.println("Downloaded!");
+            System.out.println("[Thread #2] Downloaded!");
             Log log = new Log();
             log.setNewVersion(newestVersion).save();
         } catch (IOException | InterruptedException e) {
