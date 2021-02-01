@@ -10,7 +10,7 @@ public class Main {
     public static String mcVersion;
 
     public static void main(String[] args) {
-        if (args[0] != null){
+        if (args.length != 0){
             try {
                 mcVersion = "1.16.5";
                 Paper paper = new Paper(mcVersion);
