@@ -44,8 +44,9 @@ public class Main {
 
                 }else
                     System.out.println("You are already at the newest version!");
+                    Server.startServer(mcVersion, Paper.newestVersion, Integer.parseInt(args[0]));
                 System.exit(0);
-            } catch (IOException e) {
+            } catch (IOException | InterruptedException e) {
                 e.printStackTrace();
             }
         } else
