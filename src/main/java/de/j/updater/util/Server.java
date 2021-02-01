@@ -1,7 +1,9 @@
 package de.j.updater.util;
 
+import de.j.updater.main.Main;
+
 import java.io.*;
-import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class Server {
 
@@ -10,11 +12,13 @@ public class Server {
         String s;
         try {
             p = Runtime.getRuntime().exec("ls");
+            p.waitFor();
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(p.getInputStream()));
             while ((s = br.readLine()) != null){
                 if (s.contains("paper-1.1")){
-                    //serverVersion = s;
+                    p.destroy();
+                    System.out.println("You are currently on version " + s);
                     return s;
                 }
             }
@@ -29,7 +33,7 @@ public class Server {
     public static void deleteOldVersion() throws IOException, InterruptedException {
         try {
             System.out.println("[Thread #1] Deleting old version...");
-            Process process = Runtime.getRuntime().exec("rm paper.jar");
+            Process process = Runtime.getRuntime().exec("rm " + getCurrentVersion());
             process.waitFor();
             process.destroy();
             System.out.println("[Thread #1] Deleted!");
@@ -39,8 +43,8 @@ public class Server {
 
     }
 
-    public static boolean alreadyNewestVersion(){
-        try {
+    public static boolean alreadyNewestVersion() throws IOException {
+        /*try {
             Log log = new Log();
             if (!log.exists()){
                 return false;
@@ -48,12 +52,14 @@ public class Server {
             return log.getLatestUpdateVersion() == Paper.newestVersion;
         } catch (IOException | NoSuchElementException e) {
             return false;
-        }
+        }*/
+        //paper-1.16.5-457.jar
+        return Objects.requireNonNull(getCurrentVersion()).replace("paper-" + Main.mcVersion + "-", "").replace(".jar", "").equals(String.valueOf(Paper.newestVersion));
     }
 
-    public static void startServer(String mcVersion, int ram) throws IOException, InterruptedException {
+    public static void startServer(String mcVersion, int buildVersion, int ram) throws IOException, InterruptedException {
         System.out.println("Starting server on Screen...");
-        Process p = Runtime.getRuntime().exec("screen -dmS mc java -jar -Xmx" + ram + "G paper.jar nogui");
+        Process p = Runtime.getRuntime().exec("screen -dmS mc java -jar -Xmx" + ram + "G paper-" + mcVersion + "-" + buildVersion + ".jar nogui");
         p.waitFor();
         p.destroy();
     }

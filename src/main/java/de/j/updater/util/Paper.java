@@ -28,7 +28,7 @@ public class Paper {
             v.add(Integer.parseInt(version));
         }
 
-        int newest = 100;
+        int newest = 300;
         for (int i : v) {
             if (i > newest) newest = i;
         }
